@@ -12,11 +12,15 @@ SOURCES += \
     db_manager.cpp \
     main.cpp \
     login.cpp \
+    model/movie.cpp \
+    model/moviedto.cpp \
     welcom.cpp
 
 HEADERS += \
     db_manager.h \
     login.h \
+    model/movie.h \
+    model/moviedto.h \
     welcom.h
 
 FORMS += \

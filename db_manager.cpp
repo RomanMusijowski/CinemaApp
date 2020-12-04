@@ -3,6 +3,7 @@
 #include <QSqlError>
 #include <QSqlRecord>
 #include <QDebug>
+#include <model/moviedto.h>
 
 db_manager::db_manager(const QString &path)
 {
@@ -104,6 +105,38 @@ bool db_manager::login(const QString& name, const QString& pass){
     }
 
     return exists;
+}
+
+QList<MovieDTO> db_manager::getMovies()
+{
+    QList<MovieDTO> movies;
+    QSqlQuery query("SELECT name, COUNT(roomId) as cou from MOVIES group by name;");
+    int nameId= query.record().indexOf("name");
+    int countId = query.record().indexOf("cou");
+
+    while (query.next())
+    {
+        MovieDTO movie;
+        movie.setName(query.value(nameId).toString());
+        movie.setSession(query.value(countId).toInt());
+        movies.append(movie);
+
+//        QString name = query.value(nameId).toString();
+//        QString cou = query.value(countId).toString();
+
+//        qDebug() << "===" << name << " " << cou;
+    }
+    return movies;
+}
+
+bool db_manager::addMovie(const QString &name)
+{
+
+}
+
+bool db_manager::removeMovie(const int id)
+{
+
 }
 
 

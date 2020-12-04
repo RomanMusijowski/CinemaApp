@@ -2,7 +2,8 @@
 #define DB_MANAGER_H
 
 #include <QSqlDatabase>
-
+#include <model/moviedto.h>
+#include "model/movie.h"
 
 class db_manager
 {
@@ -12,6 +13,13 @@ public:
     bool isOpen() const;
     bool createTable();
     bool login(const QString& name, const QString& pass);
+
+    QList<MovieDTO> getMovies();
+    bool addMovie(const QString& name);
+    bool removeMovie(const int id);
+
+
+
 
     bool addPerson(const QString& name);
     bool removePerson(const QString& name);
