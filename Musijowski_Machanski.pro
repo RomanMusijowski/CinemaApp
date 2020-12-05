@@ -14,6 +14,8 @@ SOURCES += \
     login.cpp \
     model/movie.cpp \
     model/moviedto.cpp \
+    movie/addmovie.cpp \
+    movie/editmovie.cpp \
     welcom.cpp
 
 HEADERS += \
@@ -21,10 +23,14 @@ HEADERS += \
     login.h \
     model/movie.h \
     model/moviedto.h \
+    movie/addmovie.h \
+    movie/editmovie.h \
     welcom.h
 
 FORMS += \
     login.ui \
+    movie/addmovie.ui \
+    movie/editmovie.ui \
     welcom.ui
 
 # Default rules for deployment.

@@ -131,6 +131,33 @@ QList<MovieDTO> db_manager::getMovies()
 
 bool db_manager::addMovie(const QString &name)
 {
+    bool success = false;
+
+    if (!name.isEmpty())
+    {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("INSERT INTO MOVIES (name) VALUES (:name)");
+        queryAdd.bindValue(":name", name);
+
+        if(queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "add movie failed: " << queryAdd.lastError();
+        }
+    }
+    else
+    {
+        qDebug() << "add movie failed: name cannot be empty";
+    }
+
+    return success;
+}
+
+MovieDTO db_manager::editMovie(const QString &name)
+{
 
 }
 
