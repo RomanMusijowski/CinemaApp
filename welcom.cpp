@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QStandardItemModel>
 #include <db_manager.h>
+#include "login.h"
 #include <movie/addmovie.h>
 #include <movie/editmovie.h>
 
@@ -14,8 +15,6 @@ Welcom::Welcom(QWidget *parent) :
 {
     ui->setupUi(this);
     db_manager db(path);
-
-
 
 
     ui->tableWidget->setColumnCount(2);
@@ -35,7 +34,9 @@ Welcom::Welcom(QWidget *parent) :
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(dto.getSessionCount())));
     }
     ui->tableWidget->setSortingEnabled( true );
-//    this->searchSlot();
+
+    ui->editMovie->setEnabled(false);
+    ui->deleteMovie->setEnabled(false);
 }
 
 Welcom::~Welcom()
@@ -43,42 +44,50 @@ Welcom::~Welcom()
     delete ui;
 }
 
-void Welcom::on_pushButton_4_clicked()
+
+
+
+void Welcom::on_tableWidget_pressed(const QModelIndex &index)
+{
+    ui->editMovie->setEnabled(true);
+    ui->deleteMovie->setEnabled(true);
+    rowSelected=index.row();
+}
+
+void Welcom::on_addMovie_clicked()
 {
     AddMovie *addMovie=new AddMovie();
     addMovie->show();
     Welcom::close();
 }
 
-void Welcom::on_tableWidget_cellActivated(int row, int column)
-{
-}
-
-void Welcom::on_tableWidget_activated(const QModelIndex &index)
-{
-    QString data = ui->tableWidget-> model() -> data(index).toString();
-     qDebug() << data;
-}
-
-void Welcom::on_tableWidget_clicked(const QModelIndex &index)
-{
-//     qDebug() << index;
-//     ui->
-}
-
-void Welcom::on_tableWidget_pressed(const QModelIndex &index)
-{
-    rowSelected=index.row();
-    qDebug() << rowSelected;
-}
-
 void Welcom::on_editMovie_clicked()
 {
-    qDebug() << "0 = " <<  ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelected,0)).toString();
-    qDebug() << "1 = "<<  ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelected,1)).toString();
-
-
-    EditMovie * ed=new EditMovie(ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelected,0)).toString().toInt()
-,this);
+    QString name = ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelected,0)).toString();
+    EditMovie * ed=new EditMovie(name);
     ed->show();
+    Welcom::close();
+}
+
+void Welcom::on_logOut_clicked()
+{
+    Login *login=new Login();
+    login->show();
+    Welcom::close();
+}
+
+
+
+void Welcom::on_deleteMovie_clicked()
+{
+    db_manager db(path);
+    QString name = ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelected,0)).toString();
+    if(!name.isEmpty()){
+        db.removeMovie(name);
+
+        Welcom *w = new Welcom();
+        w->show();
+        Welcom::close();
+    }
+
 }

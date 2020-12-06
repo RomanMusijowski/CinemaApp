@@ -16,8 +16,8 @@ public:
 
     QList<MovieDTO> getMovies();
     bool addMovie(const QString& name);
-    MovieDTO editMovie(const QString& name);
-    bool removeMovie(const int id);
+    bool editMovie(const QString& oldName, const QString& newName);
+    bool removeMovie(const QString &name);
 
 
 

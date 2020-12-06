@@ -110,7 +110,7 @@ bool db_manager::login(const QString& name, const QString& pass){
 QList<MovieDTO> db_manager::getMovies()
 {
     QList<MovieDTO> movies;
-    QSqlQuery query("SELECT name, COUNT(roomId) as cou from MOVIES group by name;");
+    QSqlQuery query("SELECT name, COUNT(roomId) as cou from MOVIES group by name");
     int nameId= query.record().indexOf("name");
     int countId = query.record().indexOf("cou");
 
@@ -120,11 +120,6 @@ QList<MovieDTO> db_manager::getMovies()
         movie.setName(query.value(nameId).toString());
         movie.setSession(query.value(countId).toInt());
         movies.append(movie);
-
-//        QString name = query.value(nameId).toString();
-//        QString cou = query.value(countId).toString();
-
-//        qDebug() << "===" << name << " " << cou;
     }
     return movies;
 }
@@ -156,14 +151,44 @@ bool db_manager::addMovie(const QString &name)
     return success;
 }
 
-MovieDTO db_manager::editMovie(const QString &name)
+bool db_manager::editMovie(const QString &oldName, const QString &newName)
 {
-
+    bool success = false;
+    if(!newName.isEmpty() && !oldName.isEmpty()){
+        QSqlQuery queryUpdate;
+        queryUpdate.prepare("UPDATE MOVIES SET name= (:newName) WHERE name = (:oldName)");
+        queryUpdate.bindValue(":newName", newName);
+        queryUpdate.bindValue(":oldName", oldName);
+        if(queryUpdate.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "update movie failed: " << queryUpdate.lastError();
+        }
+    }
+    return success;
 }
 
-bool db_manager::removeMovie(const int id)
-{
 
+bool db_manager::removeMovie(const QString &name)
+{
+    bool success = false;
+    if(!name.isEmpty() ){
+        QSqlQuery queryDelete;
+        queryDelete.prepare("DELETE FROM MOVIES WHERE name = (:name)");
+        queryDelete.bindValue(":name", name);
+
+        if(queryDelete.exec()){
+            success = true;
+        }
+        else
+        {
+            qDebug() << "delete movie failed: " << queryDelete.lastError();
+        }
+    }
+    return success;
 }
 
 

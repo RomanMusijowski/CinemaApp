@@ -55,7 +55,7 @@
     <string>Edit movie</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="deleteMovie">
    <property name="geometry">
     <rect>
      <x>700</x>

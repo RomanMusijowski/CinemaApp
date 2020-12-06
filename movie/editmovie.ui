@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="update">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -33,10 +33,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Update</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cencal">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Cancel</string>
    </property>
   </widget>
  </widget>
