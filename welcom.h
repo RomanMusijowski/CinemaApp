@@ -27,8 +27,6 @@ private slots:
 
     void on_deleteMovie_clicked();
 
-    void on_pushButton_clicked();
-
     void on_addR_clicked();
 
     void on_editR_clicked();
@@ -36,10 +34,15 @@ private slots:
     void on_deleteR_clicked();
 
     void on_movieList_clicked();
+    void setMovies();
+    void setRooms();
+
+    void on_tableWidget_2_pressed(const QModelIndex &index);
 
 private:
     Ui::Welcom *ui;
-    int rowSelected;
+    int rowSelectedMovie;
+    int rowSelectedRoom;
 };
 
 #endif // WELCOM_H

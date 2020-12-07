@@ -204,8 +204,11 @@ QList<RoomDTO> db_manager::getRooms()
     {
         RoomDTO room;
         room.setName(query.value(nameId).toString());
-        qDebug() <<  query.value(placesId).toString();
-//        room.setCount();
+
+        QString placesStr = query.value(placesId).toString();
+//        int places[placesStr.length()/2];
+//        int *a{makeList(placesStr, places)};
+        room.setCount(placesStr.length()/2);
 
         rooms.append(room);
     }
@@ -221,13 +224,11 @@ bool db_manager::addRoom(const QString &name, const int &places)
         arr[i]=0;
 
 
-    if (!name.isEmpty() && places != 0)
-    {
+    if (!name.isEmpty() && places != 0){
         QSqlQuery queryAdd;
         queryAdd.prepare("INSERT INTO ROOMS (name, places) VALUES (:name, :places)");
         queryAdd.bindValue(":name", name);
-        QString str = stringify(arr, places);
-        queryAdd.bindValue(":places", str);
+        queryAdd.bindValue(":places", stringify(arr, places));
 
         if(queryAdd.exec())
         {
@@ -246,14 +247,48 @@ bool db_manager::addRoom(const QString &name, const int &places)
     return success;
 }
 
-bool db_manager::editRoom(const QString &oldName, const QString &newName)
+bool db_manager::editRoom(const QString &oldName, const QString &newName, const int &newCount)
 {
+    bool success = false;
+    if(!newName.isEmpty() && !oldName.isEmpty() && newCount != 0){
 
+        QSqlQuery queryUpdate;
+        int arr[newCount];
+        for(size_t i = 0; i < (sizeof(arr)/sizeof(*arr)); i++)
+            arr[i]=0;
+
+        queryUpdate.prepare("UPDATE ROOMS SET name= (:newName), places= (:places) WHERE name = (:oldName)");
+        queryUpdate.bindValue(":newName", newName);
+        queryUpdate.bindValue(":places", stringify(arr, newCount));
+        queryUpdate.bindValue(":oldName", oldName);
+
+        if(queryUpdate.exec()){
+            success = true;
+        }
+        else {
+            qDebug() << "update movie failed: " << queryUpdate.lastError();
+        }
+    }
+    return success;
 }
 
 bool db_manager::removeRoom(const QString &name)
 {
+    bool success = false;
+    if(!name.isEmpty() ){
+        QSqlQuery queryDelete;
+        queryDelete.prepare("DELETE FROM ROOMS WHERE name = (:name)");
+        queryDelete.bindValue(":name", name);
 
+        if(queryDelete.exec()){
+            success = true;
+        }
+        else
+        {
+            qDebug() << "delete room failed: " << queryDelete.lastError();
+        }
+    }
+    return success;
 }
 
 QString db_manager::stringify(int arr[], int size)
@@ -264,13 +299,21 @@ QString db_manager::stringify(int arr[], int size)
         str += ",";
         qDebug() << i << ", ";
     }
+    qDebug() << Qt::endl;
     return QString::fromStdString(str);
 }
 
 
-int *db_manager::makeList(const QString &list)
+int * db_manager::makeList(const QString &list, int *arr)
 {
+    int len = list.length();
 
+    for(int i = 0; i<len/2; i+=2){
+        arr[i] = list.toStdString()[i]- '0';
+        qDebug() << arr[i] << ", ";
+    }
+    qDebug() << Qt::endl;
+    return arr;
 }
 
 

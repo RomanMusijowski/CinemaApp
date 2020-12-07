@@ -21,12 +21,12 @@ public:
     bool removeMovie(const QString &name);
 
 
-   QList<RoomDTO> getRooms();
-   bool addRoom(const QString &name, const int &places);
-   bool editRoom(const QString& oldName, const QString& newName);
-   bool removeRoom(const QString &name);
-   QString stringify(int arr[], int size);
-   int* makeList(const QString &list);
+    QList<RoomDTO> getRooms();
+    bool addRoom(const QString &name, const int &places);
+    bool editRoom(const QString &oldName, const QString &newName, const int &newCount);
+    bool removeRoom(const QString &name);
+    QString stringify(int arr[], int size);
+    int* makeList(const QString &list, int *arr);
 
 
 

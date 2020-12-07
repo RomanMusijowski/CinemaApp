@@ -19,6 +19,7 @@ SOURCES += \
     movie/editmovie.cpp \
     movie/movietimetable.cpp \
     room/addroom.cpp \
+    room/editroom.cpp \
     welcom.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     movie/editmovie.h \
     movie/movietimetable.h \
     room/addroom.h \
+    room/editroom.h \
     welcom.h
 
 FORMS += \
@@ -39,6 +41,7 @@ FORMS += \
     movie/editmovie.ui \
     movie/movietimetable.ui \
     room/addroom.ui \
+    room/editroom.ui \
     welcom.ui
 
 # Default rules for deployment.
