@@ -25,7 +25,7 @@ public:
    bool addRoom(const QString &name, const int &places);
    bool editRoom(const QString& oldName, const QString& newName);
    bool removeRoom(const QString &name);
-   QString stringify(int arr[]);
+   QString stringify(int arr[], int size);
    int* makeList(const QString &list);
 
 

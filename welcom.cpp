@@ -26,6 +26,9 @@ Welcom::Welcom(QWidget *parent) :
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
 
+    db.getRooms();
+
+
     QList<MovieDTO> movies = db.getMovies();
     ui->tableWidget->setSortingEnabled( false );
 

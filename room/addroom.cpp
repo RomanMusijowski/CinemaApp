@@ -1,6 +1,6 @@
 #include "addroom.h"
 #include "ui_addroom.h"
-
+#include <QDebug>
 #include <db_manager.h>
 #include <welcom.h>
 
@@ -21,8 +21,12 @@ AddRoom::~AddRoom()
 void AddRoom::on_add_clicked()
 {
     db_manager db(path);
+    int count = ui->places->text().toInt();
+    QString name = ui->name->text();
 
-    if(db.addRoom(ui->name->text(), ui->places->text().toInt())){
+    qDebug() << count << ", " << name;
+
+    if(db.addRoom(name, count)){
         Welcom *welcom=new Welcom();
         welcom->show();
         AddRoom::close();
@@ -31,5 +35,7 @@ void AddRoom::on_add_clicked()
 
 void AddRoom::on_cencal_clicked()
 {
-
+    Welcom *welcom=new Welcom();
+    welcom->show();
+    AddRoom::close();
 }

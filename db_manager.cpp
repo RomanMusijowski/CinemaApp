@@ -48,7 +48,7 @@ bool db_manager::createTable()
     QSqlQuery query6;
 
     query.prepare("CREATE TABLE  USERS (userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,email VARCHAR(64) NOT NULL,username VARCHAR(64) UNIQUE NOT NULL,password VARCHAR(64) NOT NULL);");
-    query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,places VARCHAR(64) NOT NULL);");
+    query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,places VARCHAR NOT NULL);");
     query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
 
     query4.prepare("INSERT INTO USERS (`email`, `username`, `password`) VALUES (\"user1@gmail.com\", \"user1\", \"user\"),(\"user2@gmail.com\", \"user2\", \"user\"),(\"user3@gmail.com\", \"user3\", \"user\");");
@@ -196,16 +196,18 @@ bool db_manager::removeMovie(const QString &name)
 QList<RoomDTO> db_manager::getRooms()
 {
     QList<RoomDTO> rooms;
-    QSqlQuery query("SELECT name, COUNT(roomId) as cou from MOVIES group by name");
+    QSqlQuery query("SELECT * from ROOMS");
     int nameId= query.record().indexOf("name");
-    int countId = query.record().indexOf("cou");
+    int placesId = query.record().indexOf("places");
 
     while (query.next())
     {
-//        MovieDTO movie;
-//        movie.setName(query.value(nameId).toString());
-//        movie.setSession(query.value(countId).toInt());
-//        rooms.append(movie);
+        RoomDTO room;
+        room.setName(query.value(nameId).toString());
+        qDebug() <<  query.value(placesId).toString();
+//        room.setCount();
+
+        rooms.append(room);
     }
     return rooms;
 }
@@ -215,16 +217,17 @@ bool db_manager::addRoom(const QString &name, const int &places)
     bool success = false;
 
     int arr[places];
-    for(size_t i = 0; i < sizeof(arr); i++){
+    for(size_t i = 0; i < (sizeof(arr)/sizeof(*arr)); i++)
         arr[i]=0;
-    }
+
 
     if (!name.isEmpty() && places != 0)
     {
         QSqlQuery queryAdd;
         queryAdd.prepare("INSERT INTO ROOMS (name, places) VALUES (:name, :places)");
         queryAdd.bindValue(":name", name);
-        queryAdd.bindValue(":places", stringify(arr));
+        QString str = stringify(arr, places);
+        queryAdd.bindValue(":places", str);
 
         if(queryAdd.exec())
         {
@@ -253,12 +256,15 @@ bool db_manager::removeRoom(const QString &name)
 
 }
 
-QString db_manager::stringify(int arr[])
+QString db_manager::stringify(int arr[], int size)
 {
-    QString returnstring = "";
-    for (int i = 0; i < sizeof(arr); i++)
-      returnstring.append(QString(arr[i]));
-    return returnstring;
+    string str = "";
+    for (int i = 0; i < size; i++){
+        str += std::to_string(arr[i]);
+        str += ",";
+        qDebug() << i << ", ";
+    }
+    return QString::fromStdString(str);
 }
 
 

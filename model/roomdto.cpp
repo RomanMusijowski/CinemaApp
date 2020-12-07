@@ -20,6 +20,16 @@ void RoomDTO::setCount(int value)
     count = value;
 }
 
+int RoomDTO::getFreePlaces() const
+{
+    return freePlaces;
+}
+
+void RoomDTO::setFreePlaces(int value)
+{
+    freePlaces = value;
+}
+
 RoomDTO::RoomDTO()
 {
 
