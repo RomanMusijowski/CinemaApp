@@ -317,6 +317,43 @@ int * db_manager::makeList(const QString &list, int *arr)
 }
 
 
+QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
+{
+    QList<MovieRoomDTO> rooms;
+    QSqlQuery query;
+    query.prepare("SELECT MOVIES.name, MOVIES.date, ROOMS.name, ROOMS.places from MOVIES inner join ROOMS on ROOMS.roomId = MOVIES.roomId WHERE MOVIES.name = (:name);");
+    query.bindValue(":name", name);
+
+    int movieNameId= query.record().indexOf("MOVIES.name");
+    int dateId = query.record().indexOf("MOVIES.date");
+    int roomName = query.record().indexOf("ROOMS.name");
+    int roomPlaces = query.record().indexOf("ROOMS.places");
+
+    if (query.exec()){
+
+        while (query.next()){
+            MovieRoomDTO room;
+            room.setName(query.value(movieNameId).toString());
+            room.setRoom(query.value(roomName).toString());
+            room.setTime(query.value(dateId).toString());
+            room.setPlaces(0);
+            room.setFreePlaces(0);
+
+
+    //        QString placesStr = query.value(placesId).toString();
+    //        int places[placesStr.length()/2];
+    //        int *a{makeList(placesStr, places)};
+    //        room.setCount(placesStr.length()/2);
+
+            rooms.append(room);
+        }
+    } else {
+        qDebug() << "get movie list failed: " << query.lastError();
+    }
+    return rooms;
+}
+
+
 bool db_manager::addPerson(const QString& name)
 {
     bool success = false;

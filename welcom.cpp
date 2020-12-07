@@ -50,6 +50,7 @@ void Welcom:: setRooms(){
     ui->tableWidget_2->setSortingEnabled( true );
 }
 
+
 void Welcom:: setMovies(){
     db_manager db(path);
 
@@ -157,7 +158,8 @@ void Welcom::on_deleteR_clicked()
 
 void Welcom::on_movieList_clicked()
 {
-    MovieTimetable *timeTable = new MovieTimetable();
+    QString name = ui->tableWidget->model()->data(ui->tableWidget->model()->index(rowSelectedMovie,0)).toString();
+    MovieTimetable *timeTable = new MovieTimetable(name);
     timeTable->show();
     Welcom::close();
 }

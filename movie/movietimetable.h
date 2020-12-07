@@ -12,7 +12,7 @@ class MovieTimetable : public QDialog
     Q_OBJECT
 
 public:
-    explicit MovieTimetable(QWidget *parent = nullptr);
+    explicit MovieTimetable(QString, QWidget *parent = nullptr);
     ~MovieTimetable();
 
 private slots:
@@ -26,6 +26,8 @@ private slots:
 
 private:
     Ui::MovieTimetable *ui;
+
+    QString name;
 };
 
 #endif // MOVIETIMETABLE_H

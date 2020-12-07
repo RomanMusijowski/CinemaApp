@@ -14,8 +14,10 @@ SOURCES += \
     login.cpp \
     model/movie.cpp \
     model/moviedto.cpp \
+    model/movieroomdto.cpp \
     model/roomdto.cpp \
     movie/addmovie.cpp \
+    movie/addmovieroom.cpp \
     movie/editmovie.cpp \
     movie/movietimetable.cpp \
     room/addroom.cpp \
@@ -27,8 +29,10 @@ HEADERS += \
     login.h \
     model/movie.h \
     model/moviedto.h \
+    model/movieroomdto.h \
     model/roomdto.h \
     movie/addmovie.h \
+    movie/addmovieroom.h \
     movie/editmovie.h \
     movie/movietimetable.h \
     room/addroom.h \
@@ -38,6 +42,7 @@ HEADERS += \
 FORMS += \
     login.ui \
     movie/addmovie.ui \
+    movie/addmovieroom.ui \
     movie/editmovie.ui \
     movie/movietimetable.ui \
     room/addroom.ui \

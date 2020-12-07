@@ -22,9 +22,10 @@ private slots:
 
 private:
     Ui::EditRoom *ui;
-    QString nameF;
-    QString placesF;
 
+    QString nameF;
+
+    QString placesF;
 };
 
 #endif // EDITROOM_H
