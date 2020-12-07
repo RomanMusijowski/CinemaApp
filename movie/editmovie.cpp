@@ -36,5 +36,7 @@ void EditMovie::on_update_clicked()
 
 void EditMovie::on_cencal_clicked()
 {
-
+    Welcom *welcome = new Welcom();
+    welcome->show();
+    EditMovie::close();
 }
