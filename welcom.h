@@ -27,6 +27,16 @@ private slots:
 
     void on_deleteMovie_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_addR_clicked();
+
+    void on_editR_clicked();
+
+    void on_deleteR_clicked();
+
+    void on_movieList_clicked();
+
 private:
     Ui::Welcom *ui;
     int rowSelected;

@@ -4,6 +4,7 @@
 #include <QSqlDatabase>
 #include <model/moviedto.h>
 #include "model/movie.h"
+#include "model/roomdto.h"
 
 class db_manager
 {
@@ -18,6 +19,15 @@ public:
     bool addMovie(const QString& name);
     bool editMovie(const QString& oldName, const QString& newName);
     bool removeMovie(const QString &name);
+
+
+   QList<RoomDTO> getRooms();
+   bool addRoom(const QString &name, const int &places);
+   bool editRoom(const QString& oldName, const QString& newName);
+   bool removeRoom(const QString &name);
+   QString stringify(int arr[]);
+   int* makeList(const QString &list);
+
 
 
 

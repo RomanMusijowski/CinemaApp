@@ -13,26 +13,10 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>50</y>
-     <width>651</width>
-     <height>431</height>
-    </rect>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="logOut">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>710</x>
      <y>10</y>
      <width>80</width>
      <height>24</height>
@@ -42,44 +26,151 @@
     <string>Log out</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="editMovie">
+  <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>210</y>
-     <width>80</width>
-     <height>24</height>
+     <x>0</x>
+     <y>30</y>
+     <width>801</width>
+     <height>491</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Edit movie</string>
+   <property name="currentIndex">
+    <number>0</number>
    </property>
-  </widget>
-  <widget class="QPushButton" name="deleteMovie">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>260</y>
-     <width>80</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Delete movie</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addMovie">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>160</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add movie</string>
-   </property>
+   <widget class="QWidget" name="Movies">
+    <attribute name="title">
+     <string>Movies</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>701</width>
+       <height>471</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1777215</width>
+       <height>1777215</height>
+      </size>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="movieList">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>20</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Movie list</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addMovie">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>170</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add movie</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="editMovie">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>210</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit movie</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="deleteMovie">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>250</y>
+       <width>80</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete movie</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="Rooms">
+    <attribute name="title">
+     <string>Rooms</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>701</width>
+       <height>471</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addR">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>80</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="editR">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>120</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="deleteR">
+     <property name="geometry">
+      <rect>
+       <x>710</x>
+       <y>160</y>
+       <width>80</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

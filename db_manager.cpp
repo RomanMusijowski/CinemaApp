@@ -4,6 +4,8 @@
 #include <QSqlRecord>
 #include <QDebug>
 #include <model/moviedto.h>
+#include <iostream>
+#include <sstream>
 
 db_manager::db_manager(const QString &path)
 {
@@ -45,12 +47,12 @@ bool db_manager::createTable()
     QSqlQuery query5;
     QSqlQuery query6;
 
-    query.prepare("CREATE TABLE  USERS (userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,email VARCHAR(64) NOT NULL,username VARCHAR(64) NOT NULL,password VARCHAR(64) NOT NULL);");
-    query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,placesCount INTEGER NOT NULL);");
-    query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
+    query.prepare("CREATE TABLE  USERS (userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,email VARCHAR(64) NOT NULL,username VARCHAR(64) UNIQUE NOT NULL,password VARCHAR(64) NOT NULL);");
+    query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,places VARCHAR(64) NOT NULL);");
+    query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
 
     query4.prepare("INSERT INTO USERS (`email`, `username`, `password`) VALUES (\"user1@gmail.com\", \"user1\", \"user\"),(\"user2@gmail.com\", \"user2\", \"user\"),(\"user3@gmail.com\", \"user3\", \"user\");");
-    query5.prepare("INSERT INTO ROOMS ('placesCount') VALUES (50),(50),(50),(50);");
+    query5.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"one\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"two\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"three\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"four\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
     query6.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3);");
 
 
@@ -75,10 +77,10 @@ bool db_manager::createTable()
         qDebug() << "Injection query4 error." << query4.lastError();
     }
     if(!query5.exec()){
-        qDebug() << "Injection query4 error." << query4.lastError();
+        qDebug() << "Injection query5 error." << query4.lastError();
     }
     if(!query6.exec()){
-        qDebug() << "Injection query4 error." << query4.lastError();
+        qDebug() << "Injection query6 error." << query4.lastError();
     }
 
     return success;
@@ -191,6 +193,80 @@ bool db_manager::removeMovie(const QString &name)
     return success;
 }
 
+QList<RoomDTO> db_manager::getRooms()
+{
+    QList<RoomDTO> rooms;
+    QSqlQuery query("SELECT name, COUNT(roomId) as cou from MOVIES group by name");
+    int nameId= query.record().indexOf("name");
+    int countId = query.record().indexOf("cou");
+
+    while (query.next())
+    {
+//        MovieDTO movie;
+//        movie.setName(query.value(nameId).toString());
+//        movie.setSession(query.value(countId).toInt());
+//        rooms.append(movie);
+    }
+    return rooms;
+}
+
+bool db_manager::addRoom(const QString &name, const int &places)
+{
+    bool success = false;
+
+    int arr[places];
+    for(size_t i = 0; i < sizeof(arr); i++){
+        arr[i]=0;
+    }
+
+    if (!name.isEmpty() && places != 0)
+    {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("INSERT INTO ROOMS (name, places) VALUES (:name, :places)");
+        queryAdd.bindValue(":name", name);
+        queryAdd.bindValue(":places", stringify(arr));
+
+        if(queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "add room failed: " << queryAdd.lastError();
+        }
+    }
+    else
+    {
+        qDebug() << "add room failed: name and places cannot be empty";
+    }
+
+    return success;
+}
+
+bool db_manager::editRoom(const QString &oldName, const QString &newName)
+{
+
+}
+
+bool db_manager::removeRoom(const QString &name)
+{
+
+}
+
+QString db_manager::stringify(int arr[])
+{
+    QString returnstring = "";
+    for (int i = 0; i < sizeof(arr); i++)
+      returnstring.append(QString(arr[i]));
+    return returnstring;
+}
+
+
+int *db_manager::makeList(const QString &list)
+{
+
+}
+
 
 bool db_manager::addPerson(const QString& name)
 {
@@ -277,3 +353,6 @@ bool db_manager::personExists(const QString& name) const
 
     return exists;
 }
+
+
+

@@ -6,6 +6,8 @@
 #include "login.h"
 #include <movie/addmovie.h>
 #include <movie/editmovie.h>
+#include <movie/movietimetable.h>
+#include <room/addroom.h>
 
 static const QString path = "example.db";
 
@@ -37,6 +39,7 @@ Welcom::Welcom(QWidget *parent) :
 
     ui->editMovie->setEnabled(false);
     ui->deleteMovie->setEnabled(false);
+    ui->movieList->setEnabled(false);
 }
 
 Welcom::~Welcom()
@@ -51,6 +54,7 @@ void Welcom::on_tableWidget_pressed(const QModelIndex &index)
 {
     ui->editMovie->setEnabled(true);
     ui->deleteMovie->setEnabled(true);
+    ui->movieList->setEnabled(true);
     rowSelected=index.row();
 }
 
@@ -90,4 +94,30 @@ void Welcom::on_deleteMovie_clicked()
         Welcom::close();
     }
 
+}
+
+
+
+void Welcom::on_addR_clicked()
+{
+    AddRoom *addRoom=new AddRoom();
+    addRoom->show();
+    Welcom::close();
+}
+
+void Welcom::on_editR_clicked()
+{
+
+}
+
+void Welcom::on_deleteR_clicked()
+{
+
+}
+
+void Welcom::on_movieList_clicked()
+{
+    MovieTimetable *timeTable = new MovieTimetable();
+    timeTable->show();
+    Welcom::close();
 }
