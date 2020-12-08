@@ -12,7 +12,7 @@ class AddMovieRoom : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddMovieRoom(QWidget *parent = nullptr);
+    explicit AddMovieRoom(QString, QWidget *parent = nullptr);
     ~AddMovieRoom();
 
 private slots:
@@ -20,8 +20,14 @@ private slots:
 
     void on_cancel_clicked();
 
+
+    void on_tableWidget_pressed(const QModelIndex &index);
+
 private:
     Ui::AddMovieRoom *ui;
+    QString name;
+    int selectedRow;
+    QString roomName;
 };
 
 #endif // ADDMOVIEROOM_H

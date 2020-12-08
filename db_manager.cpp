@@ -46,14 +46,19 @@ bool db_manager::createTable()
     QSqlQuery query4;
     QSqlQuery query5;
     QSqlQuery query6;
+    QSqlQuery query7;
 
     query.prepare("CREATE TABLE  USERS (userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,email VARCHAR(64) NOT NULL,username VARCHAR(64) UNIQUE NOT NULL,password VARCHAR(64) NOT NULL);");
     query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,places VARCHAR NOT NULL);");
-    query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
+    query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
 
     query4.prepare("INSERT INTO USERS (`email`, `username`, `password`) VALUES (\"user1@gmail.com\", \"user1\", \"user\"),(\"user2@gmail.com\", \"user2\", \"user\"),(\"user3@gmail.com\", \"user3\", \"user\");");
+
     query5.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"one\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"two\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"three\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"four\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
-    query6.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3);");
+    query6.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"five\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"six\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"seven\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"eight\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
+
+
+    query7.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3), (\"Film3\", 4), (\"Film3\", 5), (\"Film3\", 6), (\"Film3\", 3), (\"Film3\", 5);");
 
 
 
@@ -82,6 +87,10 @@ bool db_manager::createTable()
     if(!query6.exec()){
         qDebug() << "Injection query6 error." << query4.lastError();
     }
+    if(!query7.exec()){
+        qDebug() << "Injection query7 error." << query4.lastError();
+    }
+
 
     return success;
 }
@@ -316,6 +325,16 @@ int * db_manager::makeList(const QString &list, int *arr)
     return arr;
 }
 
+int db_manager::getFreePlaces(QString &places)
+{
+    int count = 0;
+
+      for (int i = 0; i < places.size(); i++)
+        if (places[i] == '0') count++;
+
+      return count;
+}
+
 
 QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
 {
@@ -324,26 +343,25 @@ QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
     query.prepare("SELECT MOVIES.name, MOVIES.date, ROOMS.name, ROOMS.places from MOVIES inner join ROOMS on ROOMS.roomId = MOVIES.roomId WHERE MOVIES.name = (:name);");
     query.bindValue(":name", name);
 
-    int movieNameId= query.record().indexOf("MOVIES.name");
-    int dateId = query.record().indexOf("MOVIES.date");
-    int roomName = query.record().indexOf("ROOMS.name");
-    int roomPlaces = query.record().indexOf("ROOMS.places");
+
 
     if (query.exec()){
+
+        int movieNameId= query.record().indexOf("name");
+        int dateId = query.record().indexOf("date");
+        int roomName = query.record().indexOf("ROOMS.name");
+        int roomPlaces = query.record().indexOf("ROOMS.places");
 
         while (query.next()){
             MovieRoomDTO room;
             room.setName(query.value(movieNameId).toString());
             room.setRoom(query.value(roomName).toString());
             room.setTime(query.value(dateId).toString());
-            room.setPlaces(0);
-            room.setFreePlaces(0);
 
 
-    //        QString placesStr = query.value(placesId).toString();
-    //        int places[placesStr.length()/2];
-    //        int *a{makeList(placesStr, places)};
-    //        room.setCount(placesStr.length()/2);
+            QString places = query.value(roomPlaces).toString();
+            room.setPlaces(QString::number(places.length()/2));
+            room.setFreePlaces(QString::number(getFreePlaces(places)));
 
             rooms.append(room);
         }
@@ -351,6 +369,34 @@ QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
         qDebug() << "get movie list failed: " << query.lastError();
     }
     return rooms;
+}
+
+bool db_manager::addMovieRoom(const QString &name, const int &roomId, const QDateTime date){
+    bool success = false;
+
+    if (!name.isEmpty() || roomId == 0)
+    {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("INSERT INTO MOVIES (name, date, roomId) VALUES (:name, :dateTime, :roomId);");
+        queryAdd.bindValue(":name", name);
+        queryAdd.bindValue(":dateTime", date.toString("yyyy-MM-dd hh:mm:ss"));
+        queryAdd.bindValue(":roomId", roomId);
+
+        if(queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "add movieroom failed: " << queryAdd.lastError();
+        }
+    }
+    else
+    {
+        qDebug() << "add movieroom failed: name cannot be empty";
+    }
+
+    return success;
 }
 
 

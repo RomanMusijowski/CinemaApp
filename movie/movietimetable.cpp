@@ -1,3 +1,4 @@
+#include "addmovieroom.h"
 #include "movietimetable.h"
 #include "ui_movietimetable.h"
 
@@ -19,7 +20,7 @@ MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
     name = movieName;
 
     ui->tableWidget->setColumnCount(5);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
     QStringList titles;
     titles << "Name" << "Room" << "Places" << "Free places" << "Time";
@@ -50,8 +51,9 @@ MovieTimetable::~MovieTimetable()
 void MovieTimetable::on_add_clicked()
 {
     db_manager db(path);
-
-    //show window list of rooms, time
+    AddMovieRoom *room = new AddMovieRoom(name);
+    room->show();
+    MovieTimetable::close();
 }
 
 void MovieTimetable::on_edit_clicked()

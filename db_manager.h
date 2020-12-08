@@ -1,6 +1,7 @@
 #ifndef DB_MANAGER_H
 #define DB_MANAGER_H
 
+#include <QDateTime>
 #include <QSqlDatabase>
 #include <model/moviedto.h>
 #include "model/movie.h"
@@ -26,12 +27,14 @@ public:
     bool addRoom(const QString &name, const int &places);
     bool editRoom(const QString &oldName, const QString &newName, const int &newCount);
     bool removeRoom(const QString &name);
+
     QString stringify(int arr[], int size);
     int* makeList(const QString &list, int *arr);
+    int getFreePlaces(QString &places);
 
 
     QList<MovieRoomDTO> getMovieList(const QString &name);
-    bool addMovieRoom(const QString &name, const int &places);
+    bool addMovieRoom(const QString &name, const int &roomId, const QDateTime date);
     bool editMovieRoom(const QString &oldName, const QString &newName, const int &newCount);
     bool removeMovieRoom(const QString &name);
 
