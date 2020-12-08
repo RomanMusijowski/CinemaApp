@@ -58,7 +58,7 @@ bool db_manager::createTable()
     query6.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"five\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"six\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"seven\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"eight\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
 
 
-    query7.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3), (\"Film3\", 4), (\"Film3\", 5), (\"Film3\", 6), (\"Film3\", 3), (\"Film3\", 5);");
+    query7.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3), (\"Film4\", 4), (\"Film5\", 5), (\"Film6\", 6), (\"Film7\", 3), (\"Film8\", 5);");
 
 
 
@@ -78,18 +78,18 @@ bool db_manager::createTable()
         qDebug() << "Couldn't create the query3, one might already exist.";
         success = false;
     }
-    if(!query4.exec()){
-        qDebug() << "Injection query4 error." << query4.lastError();
-    }
-    if(!query5.exec()){
-        qDebug() << "Injection query5 error." << query4.lastError();
-    }
-    if(!query6.exec()){
-        qDebug() << "Injection query6 error." << query4.lastError();
-    }
-    if(!query7.exec()){
-        qDebug() << "Injection query7 error." << query4.lastError();
-    }
+//    if(!query4.exec()){
+//        qDebug() << "Injection query4 error." << query4.lastError();
+//    }
+//    if(!query5.exec()){
+//        qDebug() << "Injection query5 error." << query4.lastError();
+//    }
+//    if(!query6.exec()){
+//        qDebug() << "Injection query6 error." << query4.lastError();
+//    }
+//    if(!query7.exec()){
+//        qDebug() << "Injection query7 error." << query4.lastError();
+//    }
 
 
     return success;
@@ -300,6 +300,29 @@ bool db_manager::removeRoom(const QString &name)
     return success;
 }
 
+int db_manager::getRoomIdByName(const QString &name)
+{
+    int roomId = 0;
+    if(!name.isEmpty()){
+
+        QSqlQuery query;
+        query.prepare("SELECT * FROM ROOMS WHERE name = (:name)");
+        query.bindValue(":name", name);
+
+        if(query.exec()){
+            int room = query.record().indexOf("roomId");
+            if(query.next()){
+                roomId = query.value(room).toInt();
+            }
+        }
+        else {
+            qDebug() << "getRoomIdByName failed: " << query.lastError();
+        }
+    }
+    return roomId;
+}
+
+
 QString db_manager::stringify(int arr[], int size)
 {
     string str = "";
@@ -325,6 +348,7 @@ int * db_manager::makeList(const QString &list, int *arr)
     return arr;
 }
 
+
 int db_manager::getFreePlaces(QString &places)
 {
     int count = 0;
@@ -340,13 +364,14 @@ QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
 {
     QList<MovieRoomDTO> rooms;
     QSqlQuery query;
-    query.prepare("SELECT MOVIES.name, MOVIES.date, ROOMS.name, ROOMS.places from MOVIES inner join ROOMS on ROOMS.roomId = MOVIES.roomId WHERE MOVIES.name = (:name);");
+    query.prepare("SELECT MOVIES.movieId, MOVIES.name, MOVIES.date, ROOMS.name, ROOMS.places from MOVIES inner join ROOMS on ROOMS.roomId = MOVIES.roomId WHERE MOVIES.name = (:name);");
     query.bindValue(":name", name);
 
 
 
     if (query.exec()){
 
+        int movieId = query.record().indexOf("movieId");
         int movieNameId= query.record().indexOf("name");
         int dateId = query.record().indexOf("date");
         int roomName = query.record().indexOf("ROOMS.name");
@@ -354,6 +379,7 @@ QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
 
         while (query.next()){
             MovieRoomDTO room;
+            room.setMovieId(query.value(movieId).toString());
             room.setName(query.value(movieNameId).toString());
             room.setRoom(query.value(roomName).toString());
             room.setTime(query.value(dateId).toString());
@@ -371,6 +397,7 @@ QList<MovieRoomDTO> db_manager::getMovieList(const QString &name)
     return rooms;
 }
 
+
 bool db_manager::addMovieRoom(const QString &name, const int &roomId, const QDateTime date){
     bool success = false;
 
@@ -382,108 +409,98 @@ bool db_manager::addMovieRoom(const QString &name, const int &roomId, const QDat
         queryAdd.bindValue(":dateTime", date.toString("yyyy-MM-dd hh:mm:ss"));
         queryAdd.bindValue(":roomId", roomId);
 
-        if(queryAdd.exec())
-        {
-            success = true;
+        if(checkIfRoomEmpty(date, roomId)){
+            if(queryAdd.exec()) {
+                success = true;
+            }
+            else {
+                qDebug() << "add movieroom failed: " << queryAdd.lastError();
+            }
         }
-        else
-        {
-            qDebug() << "add movieroom failed: " << queryAdd.lastError();
-        }
+
     }
-    else
-    {
+    else {
         qDebug() << "add movieroom failed: name cannot be empty";
     }
 
     return success;
 }
 
-
-bool db_manager::addPerson(const QString& name)
+bool db_manager::editMovieRoom(const int &movieId, const int &roomId, const QDateTime date)
 {
     bool success = false;
+    if(movieId != 0){
 
-    if (!name.isEmpty())
-    {
-        QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO people (name) VALUES (:name)");
-        queryAdd.bindValue(":name", name);
+        QSqlQuery queryUpdate;
+        queryUpdate.prepare("UPDATE MOVIES SET date= (:newDate) WHERE movieId = (:movieId)");
 
-        if(queryAdd.exec())
-        {
+        queryUpdate.bindValue(":newDate", date.toString("yyyy-MM-dd hh:mm:ss"));
+        queryUpdate.bindValue(":movieId", movieId);
+
+        if(checkIfRoomEmpty(date, roomId)){
+            if(queryUpdate.exec()){
+                success = true;
+            }
+            else {
+                qDebug() << "editMovieRoom failed: " << queryUpdate.lastError();
+            }
+        }
+
+    }
+    return success;
+}
+
+bool db_manager::removeMovieRoom(const int &movieId)
+{
+    bool success = false;
+    if(movieId != 0){
+        QSqlQuery queryDelete;
+        queryDelete.prepare("DELETE FROM MOVIES WHERE movieId = (:id)");
+        queryDelete.bindValue(":id", movieId);
+
+        if(queryDelete.exec()){
             success = true;
         }
         else
         {
-            qDebug() << "add person failed: " << queryAdd.lastError();
+            qDebug() << "removeMovieRoom failed: " << queryDelete.lastError();
         }
     }
-    else
-    {
-        qDebug() << "add person failed: name cannot be empty";
-    }
-
     return success;
 }
 
-bool db_manager::removePerson(const QString& name)
+bool db_manager::checkIfRoomEmpty(const QDateTime date, const int &roomId)
 {
-    bool success = false;
 
-    if (personExists(name))
+    QDateTime toTime = date.addSecs(3600);
+    QDateTime fromTime = date.addSecs(-3600);
+    bool success = true;
+
+    if (roomId != 0)
     {
-        QSqlQuery queryDelete;
-        queryDelete.prepare("DELETE FROM people WHERE name = (:name)");
-        queryDelete.bindValue(":name", name);
-        success = queryDelete.exec();
+        QSqlQuery query;
+        query.prepare("SELECT * FROM MOVIES WHERE date between (:fromTime) and (:toTime) and roomId = (:roomId);");
 
-        if(!success)
-        {
-            qDebug() << "remove person failed: " << queryDelete.lastError();
+        query.bindValue(":fromTime", fromTime.toString("yyyy-MM-dd hh:mm:ss"));
+        query.bindValue(":toTime", toTime.toString("yyyy-MM-dd hh:mm:ss"));
+        query.bindValue(":roomId", roomId);
+
+        if(query.exec()) {
+            if (query.next()) {
+                qDebug() <<  query.value(query.record().indexOf("movieId"));
+                qDebug() <<  query.value(query.record().indexOf("name"));
+                success = false;
+            }
         }
-    }
-    else
+        else {
+            qDebug() << "checkIfRoomEmpty failed: " << query.lastError();
+        }
+    } else
     {
-        qDebug() << "remove person failed: person doesnt exist";
+        qDebug() << "checkIfRoomEmpty failed: name cannot be empty";
     }
 
     return success;
-}
-
-void db_manager::printAllPersons() const
-{
-    qDebug() << "Persons in db:";
-    QSqlQuery query("SELECT * FROM people");
-    int idName = query.record().indexOf("name");
-    while (query.next())
-    {
-        QString name = query.value(idName).toString();
-        qDebug() << "===" << name;
-    }
-}
-
-bool db_manager::personExists(const QString& name) const
-{
-    bool exists = false;
-
-    QSqlQuery checkQuery;
-    checkQuery.prepare("SELECT name FROM people WHERE name = (:name)");
-    checkQuery.bindValue(":name", name);
-
-    if (checkQuery.exec())
-    {
-        if (checkQuery.next())
-        {
-            exists = true;
-        }
-    }
-    else
-    {
-        qDebug() << "person exists failed: " << checkQuery.lastError();
-    }
-
-    return exists;
 }
 
 

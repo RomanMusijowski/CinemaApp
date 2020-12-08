@@ -19,6 +19,7 @@ SOURCES += \
     movie/addmovie.cpp \
     movie/addmovieroom.cpp \
     movie/editmovie.cpp \
+    movie/editmovieroom.cpp \
     movie/movietimetable.cpp \
     room/addroom.cpp \
     room/editroom.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     movie/addmovie.h \
     movie/addmovieroom.h \
     movie/editmovie.h \
+    movie/editmovieroom.h \
     movie/movietimetable.h \
     room/addroom.h \
     room/editroom.h \
@@ -44,6 +46,7 @@ FORMS += \
     movie/addmovie.ui \
     movie/addmovieroom.ui \
     movie/editmovie.ui \
+    movie/editmovieroom.ui \
     movie/movietimetable.ui \
     room/addroom.ui \
     room/editroom.ui \

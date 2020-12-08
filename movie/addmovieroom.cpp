@@ -47,7 +47,6 @@ AddMovieRoom::~AddMovieRoom(){
 void AddMovieRoom::on_add_clicked(){
     db_manager db(path);
     QDateTime myDate= ui->dateTimeEdit->dateTime();
-    QString dateString = myDate.toString("yyyy-MM-dd hh:mm:ss");
 
 
 

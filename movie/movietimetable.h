@@ -24,10 +24,13 @@ private slots:
 
     void on_back_clicked();
 
+    void on_tableWidget_pressed(const QModelIndex &index);
+
 private:
     Ui::MovieTimetable *ui;
 
     QString name;
+    int movieId;
 };
 
 #endif // MOVIETIMETABLE_H

@@ -8,6 +8,7 @@
 class MovieRoomDTO
 {
 private:
+    QString movieId;
     QString name;
     QString room;
     QString places;
@@ -26,6 +27,8 @@ public:
     void setFreePlaces(const QString &value);
     QString getTime() const;
     void setTime(const QString &value);
+    QString getMovieId() const;
+    void setMovieId(const QString &value);
 };
 
 #endif // MOVIEROOMDTO_H

@@ -1,4 +1,5 @@
 #include "addmovieroom.h"
+#include "editmovieroom.h"
 #include "movietimetable.h"
 #include "ui_movietimetable.h"
 
@@ -6,6 +7,7 @@
 #include <list>
 #include <list>
 #include <welcom.h>
+#include <QDebug>
 
 #include <model/movieroomdto.h>
 
@@ -19,11 +21,14 @@ MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
     db_manager db(path);
     name = movieName;
 
-    ui->tableWidget->setColumnCount(5);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+    ui->edit->setEnabled(false);
+    ui->delete_2->setEnabled(false);
+
+    ui->tableWidget->setColumnCount(6);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "Name" << "Room" << "Places" << "Free places" << "Time";
+    titles << "id" << "Name" << "Room" << "Places" << "Free places" << "Time";
     ui->tableWidget->setHorizontalHeaderLabels(titles);
 
     QList<MovieRoomDTO> movies = db.getMovieList(name);
@@ -33,11 +38,12 @@ MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
     for (int i = 0; i < movies.count(); i++) {
         MovieRoomDTO dto = movies.at(i);
         ui->tableWidget->insertRow(i);
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(dto.getName()));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(dto.getRoom()));
-        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(dto.getPlaces()));
-        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(dto.getFreePlaces()));
-        ui->tableWidget->setItem(i, 4, new QTableWidgetItem(dto.getTime()));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(dto.getMovieId()));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(dto.getName()));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(dto.getRoom()));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(dto.getPlaces()));
+        ui->tableWidget->setItem(i, 4, new QTableWidgetItem(dto.getFreePlaces()));
+        ui->tableWidget->setItem(i, 5, new QTableWidgetItem(dto.getTime()));
     }
     ui->tableWidget->setSortingEnabled( true );
 
@@ -59,18 +65,41 @@ void MovieTimetable::on_add_clicked()
 void MovieTimetable::on_edit_clicked()
 {
     db_manager db(path);
-    //show window
+
+    int roomId = db.getRoomIdByName(ui->tableWidget->selectedItems().at(2)->text());
+    if(roomId != 0){
+        int movieId = ui->tableWidget->selectedItems().at(0)->text().toInt();
+        QString time = ui->tableWidget->selectedItems().at(5)->text();
+
+        EditMovieRoom *edit = new EditMovieRoom(name, movieId, roomId, QDateTime::fromString(time, "yyyy-MM-dd hh:mm:ss"));
+        edit->show();
+        MovieTimetable::close();
+    }
+
 }
 
 void MovieTimetable::on_delete_2_clicked()
 {
     db_manager db(path);
-    //by id
+    if(db.removeMovieRoom(movieId)){
+       qDebug() << "Movie has been deleted.";
+       MovieTimetable *table = new MovieTimetable(name);
+       table->show();
+       MovieTimetable::close();
+    }
 }
 
 void MovieTimetable::on_back_clicked()
 {
     Welcom *welcome = new Welcom();
-    welcome->show();
     MovieTimetable::close();
+    welcome->show();
+}
+
+void MovieTimetable::on_tableWidget_pressed(const QModelIndex &index)
+{
+
+    ui->edit->setEnabled(true);
+    ui->delete_2->setEnabled(true);
+    movieId = ui->tableWidget->selectedItems().at(0)->text().toInt();
 }

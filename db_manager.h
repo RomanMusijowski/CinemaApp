@@ -27,6 +27,7 @@ public:
     bool addRoom(const QString &name, const int &places);
     bool editRoom(const QString &oldName, const QString &newName, const int &newCount);
     bool removeRoom(const QString &name);
+    int getRoomIdByName(const QString &name);
 
     QString stringify(int arr[], int size);
     int* makeList(const QString &list, int *arr);
@@ -35,17 +36,10 @@ public:
 
     QList<MovieRoomDTO> getMovieList(const QString &name);
     bool addMovieRoom(const QString &name, const int &roomId, const QDateTime date);
-    bool editMovieRoom(const QString &oldName, const QString &newName, const int &newCount);
-    bool removeMovieRoom(const QString &name);
+    bool editMovieRoom(const int &movieId, const int &roomId, const QDateTime date);
+    bool removeMovieRoom(const int &movieId);
 
-
-
-
-
-    bool addPerson(const QString& name);
-    bool removePerson(const QString& name);
-    bool personExists(const QString& name) const;
-    void printAllPersons() const;
+    bool checkIfRoomEmpty(const QDateTime date, const int &roomId);
 
 private:
     QSqlDatabase m_db;

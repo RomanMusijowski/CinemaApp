@@ -50,7 +50,17 @@ void MovieRoomDTO::setTime(const QString &value)
     time = value;
 }
 
+QString MovieRoomDTO::getMovieId() const
+{
+    return movieId;
+}
+
+void MovieRoomDTO::setMovieId(const QString &value)
+{
+    movieId = value;
+}
+
 MovieRoomDTO::MovieRoomDTO()
 {
-
+    
 }

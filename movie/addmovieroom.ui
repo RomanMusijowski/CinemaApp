@@ -22,6 +22,12 @@
      <height>201</height>
     </rect>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
   </widget>
   <widget class="QDateTimeEdit" name="dateTimeEdit">
    <property name="geometry">
