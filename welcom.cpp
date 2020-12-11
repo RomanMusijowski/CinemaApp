@@ -35,7 +35,7 @@ void Welcom:: setRooms(){
     ui->tableWidget_2->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "Name" << "Count";
+    titles << "Nazwa" << "Miejsca";
     ui->tableWidget_2->setHorizontalHeaderLabels(titles);
 
     QList<RoomDTO> rooms = db.getRooms();
@@ -58,7 +58,7 @@ void Welcom:: setMovies(){
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "Name" << "Session";
+    titles << "Nazwa" << "Liczba seansów";
     ui->tableWidget->setHorizontalHeaderLabels(titles);
 
     QList<MovieDTO> movies = db.getMovies();

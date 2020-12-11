@@ -24,7 +24,7 @@ AddMovieRoom::AddMovieRoom(QString x, QWidget *parent) :
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "Name" << "Places";
+    titles << "Nazwa" << "Ilość miejsc";
     ui->tableWidget->setHorizontalHeaderLabels(titles);
 
     QList<RoomDTO> rooms = db.getRooms();

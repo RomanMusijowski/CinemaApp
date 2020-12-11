@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="Movies">
     <attribute name="title">
@@ -80,7 +80,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Lista filmów</string>
+      <string>Lista seansów</string>
      </property>
     </widget>
     <widget class="QPushButton" name="addMovie">
