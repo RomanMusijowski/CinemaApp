@@ -18,12 +18,12 @@
     <rect>
      <x>30</x>
      <y>10</y>
-     <width>80</width>
+     <width>161</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>Back</string>
+    <string>Wróć do poprzedniej strony</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="tableWidget">
@@ -52,7 +52,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Edit</string>
+    <string>Edytuj</string>
    </property>
   </widget>
   <widget class="QPushButton" name="add">
@@ -65,7 +65,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add</string>
+    <string>Dodaj</string>
    </property>
   </widget>
   <widget class="QPushButton" name="delete_2">
@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>Usuń</string>
    </property>
   </widget>
  </widget>

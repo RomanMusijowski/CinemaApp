@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Cancel</string>
+    <string>Anuluj</string>
    </property>
   </widget>
   <widget class="QPushButton" name="add">
@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Update</string>
+    <string>Edytuj</string>
    </property>
   </widget>
   <widget class="QLabel" name="dateLabel">
@@ -59,7 +59,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Date and time</string>
+    <string>Data i czas</string>
    </property>
   </widget>
   <widget class="QLabel" name="nameLabel">
@@ -90,7 +90,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Movie name</string>
+    <string>Nazwa filmu</string>
    </property>
   </widget>
  </widget>
