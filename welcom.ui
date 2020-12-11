@@ -150,7 +150,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Add</string>
+      <string>Dodaj</string>
      </property>
     </widget>
     <widget class="QPushButton" name="editR">
@@ -163,7 +163,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Edit</string>
+      <string>Edycja</string>
      </property>
     </widget>
     <widget class="QPushButton" name="deleteR">
@@ -176,7 +176,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Delete</string>
+      <string>Usuń</string>
      </property>
     </widget>
    </widget>
