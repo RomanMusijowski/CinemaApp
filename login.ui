@@ -17,10 +17,10 @@
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>90</y>
-      <width>131</width>
-      <height>108</height>
+      <x>240</x>
+      <y>80</y>
+      <width>251</width>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -43,14 +43,14 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Login page</string>
+        <string>Logowanie</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Login</string>
+        <string>Zaloguj</string>
        </property>
       </widget>
      </item>
