@@ -11,6 +11,8 @@
 
 #include <model/movieroomdto.h>
 
+#include <reservation/makereservation.h>
+
 static const QString path = "example.db";
 
 MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
@@ -23,6 +25,7 @@ MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
 
     ui->edit->setEnabled(false);
     ui->delete_2->setEnabled(false);
+    ui->reserve->setEnabled(false);
 
     ui->tableWidget->setColumnCount(6);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
@@ -101,5 +104,13 @@ void MovieTimetable::on_tableWidget_pressed(const QModelIndex &index)
 
     ui->edit->setEnabled(true);
     ui->delete_2->setEnabled(true);
+    ui->reserve->setEnabled(true);
     movieId = ui->tableWidget->selectedItems().at(0)->text().toInt();
+}
+
+void MovieTimetable::on_reserve_clicked()
+{
+    MakeReservation *reserve = new MakeReservation(name, movieId);
+    reserve->show();
+    MovieTimetable::close();
 }

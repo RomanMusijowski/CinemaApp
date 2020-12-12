@@ -41,6 +41,11 @@ public:
 
     bool checkIfRoomEmpty(const QDateTime date, const int &roomId);
 
+    QList<QChar> getPlaces(const int &movieId);
+
+    bool unreserve(const int &movieId, const int &placeNum);
+    bool reserve(const int &movieId, const int &placeNum);
+
 private:
     QSqlDatabase m_db;
 };

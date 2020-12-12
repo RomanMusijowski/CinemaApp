@@ -21,6 +21,7 @@ SOURCES += \
     movie/editmovie.cpp \
     movie/editmovieroom.cpp \
     movie/movietimetable.cpp \
+    reservation/makereservation.cpp \
     room/addroom.cpp \
     room/editroom.cpp \
     welcom.cpp
@@ -37,6 +38,7 @@ HEADERS += \
     movie/editmovie.h \
     movie/editmovieroom.h \
     movie/movietimetable.h \
+    reservation/makereservation.h \
     room/addroom.h \
     room/editroom.h \
     welcom.h
@@ -48,6 +50,7 @@ FORMS += \
     movie/editmovie.ui \
     movie/editmovieroom.ui \
     movie/movietimetable.ui \
+    reservation/makereservation.ui \
     room/addroom.ui \
     room/editroom.ui \
     welcom.ui

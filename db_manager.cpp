@@ -503,5 +503,95 @@ bool db_manager::checkIfRoomEmpty(const QDateTime date, const int &roomId)
     return success;
 }
 
+QList<QChar> db_manager::getPlaces(const int &movieId)
+{
+    QList<QChar> places;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
 
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+
+            while (query.next()){
+                QString plc = query.value(placesDB).toString();
+                for(size_t i = 0; i < plc.length(); i+=2){
+                    if(plc.at(i) == '0' || plc.at(i) == '1'){
+                        places.append(plc.at(i));
+                    }
+                }
+            }
+        }
+    }
+    return places;
+}
+
+bool db_manager::unreserve(const int &movieId, const int &placeNum)
+{
+    bool success = false;
+    QString string;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
+
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+            while (query.next()){
+                string = query.value(placesDB).toString();
+            }
+        }
+
+        if(string.length() > placeNum){
+            string[placeNum*2] = '0';
+
+            QSqlQuery queryUpdate;
+            queryUpdate.prepare("UPDATE ROOMS SET places= (:places) WHERE roomId IS (SELECT roomId from MOVIES where movieId = (:movieId));");
+            queryUpdate.bindValue(":places", string);
+            queryUpdate.bindValue(":movieId", movieId);
+            if(queryUpdate.exec()){
+                        success = true;
+            }
+            else {
+                qDebug() << "update movie failed: " << queryUpdate.lastError();
+            }
+        }
+    }
+    return success;
+}
+
+bool db_manager::reserve(const int &movieId, const int &placeNum)
+{
+    bool success = false;
+    QString string;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
+
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+            while (query.next()){
+                string = query.value(placesDB).toString();
+            }
+        }
+
+        if(string.length() > placeNum){
+            string[placeNum*2] = '1';
+
+            QSqlQuery queryUpdate;
+            queryUpdate.prepare("UPDATE ROOMS SET places= (:places) WHERE roomId IS (SELECT roomId from MOVIES where movieId = (:movieId));");
+            queryUpdate.bindValue(":places", string);
+            queryUpdate.bindValue(":movieId", movieId);
+            if(queryUpdate.exec()){
+                        success = true;
+            }
+            else {
+                qDebug() << "update movie failed: " << queryUpdate.lastError();
+            }
+        }
+    }
+    return success;
+}
 

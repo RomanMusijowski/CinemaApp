@@ -26,6 +26,8 @@ private slots:
 
     void on_tableWidget_pressed(const QModelIndex &index);
 
+    void on_reserve_clicked();
+
 private:
     Ui::MovieTimetable *ui;
 
