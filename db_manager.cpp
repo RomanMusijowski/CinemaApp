@@ -577,6 +577,7 @@ bool db_manager::unreserve(const int &movieId, const int &placeNum)
             }
         }
 
+
         if((string.length()/2) > placeNum){
             string[placeNum*2] = '0';
 
@@ -596,6 +597,7 @@ bool db_manager::unreserve(const int &movieId, const int &placeNum)
     }
     return success;
 }
+
 
 bool db_manager::reserve(const int &movieId, const int &placeNum)
 {
@@ -632,6 +634,5 @@ bool db_manager::reserve(const int &movieId, const int &placeNum)
     }
     return success;
 }
-
 
 

@@ -31,7 +31,7 @@ MovieTimetable::MovieTimetable(QString movieName, QWidget *parent) :
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "id" << "Name" << "Room" << "Places" << "Free places" << "Time";
+    titles << "ID" << "Nazwa" << "Kino" << "Ilosc miejsc" << "Wolne miejsca" << "Data";
     ui->tableWidget->setHorizontalHeaderLabels(titles);
 
     QList<MovieRoomDTO> movies = db.getMovieList(name);

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Log out</string>
+    <string>Wyloguj</string>
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
@@ -40,7 +40,7 @@
    </property>
    <widget class="QWidget" name="Movies">
     <attribute name="title">
-     <string>Movies</string>
+     <string>Filmy</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidget">
      <property name="geometry">
@@ -80,7 +80,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Movie list</string>
+      <string>Lista seansów</string>
      </property>
     </widget>
     <widget class="QPushButton" name="addMovie">
@@ -93,7 +93,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Add movie</string>
+      <string>Dodaj film</string>
      </property>
     </widget>
     <widget class="QPushButton" name="editMovie">
@@ -106,7 +106,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Edit movie</string>
+      <string>Edycja filmu</string>
      </property>
     </widget>
     <widget class="QPushButton" name="deleteMovie">
@@ -119,13 +119,13 @@
       </rect>
      </property>
      <property name="text">
-      <string>Delete movie</string>
+      <string>Usuń film</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="Rooms">
     <attribute name="title">
-     <string>Rooms</string>
+     <string>Kina</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidget_2">
      <property name="geometry">
@@ -150,7 +150,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Add</string>
+      <string>Dodaj</string>
      </property>
     </widget>
     <widget class="QPushButton" name="editR">
@@ -163,7 +163,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Edit</string>
+      <string>Edycja</string>
      </property>
     </widget>
     <widget class="QPushButton" name="deleteR">
@@ -176,7 +176,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Delete</string>
+      <string>Usuń</string>
      </property>
     </widget>
    </widget>

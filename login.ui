@@ -17,10 +17,10 @@
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>90</y>
-      <width>131</width>
-      <height>108</height>
+      <x>230</x>
+      <y>60</y>
+      <width>271</width>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -30,27 +30,48 @@
      <property name="formAlignment">
       <set>Qt::AlignHCenter|Qt::AlignTop</set>
      </property>
-     <item row="1" column="0">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Nazwa użytkownika:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
       <widget class="QLineEdit" name="lineEdit_2">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Login page</string>
+        <string>Hasło:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="5" column="1">
       <widget class="QPushButton" name="pushButton">
+       <property name="styleSheet">
+        <string notr="true">color:blue;</string>
+       </property>
        <property name="text">
-        <string>Login</string>
+        <string>Zaloguj</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: blue;</string>
+       </property>
+       <property name="text">
+        <string>Logowanie</string>
        </property>
       </widget>
      </item>

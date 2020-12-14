@@ -48,7 +48,6 @@ public:
     bool unreserve(const int &movieId, const int &placeNum);
     bool reserve(const int &movieId, const int &placeNum);
 
-
 private:
     QSqlDatabase m_db;
 };

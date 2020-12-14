@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Update</string>
+    <string>Edytuj</string>
    </property>
   </widget>
   <widget class="QPushButton" name="cencal">
@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Cancel</string>
+    <string>Anuluj</string>
    </property>
   </widget>
  </widget>

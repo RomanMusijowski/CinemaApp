@@ -27,7 +27,7 @@ MakeReservation::MakeReservation(QString x, int y, QWidget *parent) :
      ui->unreserve->setEnabled(false);
      ui->movieName->setText(name);
 
-     int j = 0;
+
      int i = 0;
      for ( int j = 0; j < ((places.count() + 5 - 1) / 5); j++) {
          ui->tableWidget->insertRow(j);
@@ -35,10 +35,12 @@ MakeReservation::MakeReservation(QString x, int y, QWidget *parent) :
          while(i < places.count()){
               QChar qchar = places.at(i);
               if(qchar == '0'){
-                  ui->tableWidget->setItem(j, i%5, new QTableWidgetItem("F"));
+
+                  ui->tableWidget->setItem(j, i%5, new QTableWidgetItem("W"));
                   i++;
               }else if(qchar == '1'){
-                  ui->tableWidget->setItem(j, i%5, new QTableWidgetItem("B"));
+                  ui->tableWidget->setItem(j, i%5, new QTableWidgetItem("Z"));
+
                   i++;
               }
               if(i % 5 == 0 && i != 0){
