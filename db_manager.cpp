@@ -47,18 +47,19 @@ bool db_manager::createTable()
     QSqlQuery query5;
     QSqlQuery query6;
     QSqlQuery query7;
+    QSqlQuery query8;
 
     query.prepare("CREATE TABLE  USERS (userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,email VARCHAR(64) NOT NULL,username VARCHAR(64) UNIQUE NOT NULL,password VARCHAR(64) NOT NULL);");
     query2.prepare("CREATE TABLE  ROOMS (roomId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) UNIQUE NOT NULL,places VARCHAR NOT NULL);");
     query3.prepare("CREATE TABLE  MOVIES (movieId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR(64) NOT NULL,date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,roomId INTEGER,FOREIGN KEY(roomId) REFERENCES ROOMS(roomId));");
 
-    query4.prepare("INSERT INTO USERS (`email`, `username`, `password`) VALUES (\"user1@gmail.com\", \"user1\", \"user\"),(\"user2@gmail.com\", \"user2\", \"user\"),(\"user3@gmail.com\", \"user3\", \"user\");");
+    query4.prepare("INSERT INTO USERS (`email`, `username`, `password`) VALUES (\"kowal@gmail.com\", \"kowal\", \"kowal\"), (\"dziok@gmail.com\", \"dziok\", \"dziok\"), (\"admin@gmail.com\", \"admin\", \"admin\");");
 
-    query5.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"one\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"two\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"three\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"four\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
-    query6.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"five\", \"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"six\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"seven\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\"), (\"eight\",\"0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,\");");
+    query5.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"Movie theater\", \"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Room 3D\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Room 4D\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\");");
+    query6.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"A Room with a View\", \"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Panic Room\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Deep efect room\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Green Room\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\");");
+    query7.prepare("INSERT INTO ROOMS ('name', 'places') VALUES (\"Red Room\", \"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Standing Room Only\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Room in Rome\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\"), (\"Control Room\",\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\");");
 
-
-    query7.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"Film1\" , 1), (\"Film2\" , 2), (\"Film3\", 3), (\"Film4\", 4), (\"Film5\", 5), (\"Film6\", 6), (\"Film7\", 3), (\"Film8\", 5);");
+    query8.prepare("INSERT INTO MOVIES (`name`, `roomId`) VALUES (\"MULAN\" , 1), (\"FAMILY ROMANCE, LLC\" , 2), (\"BLACK BOX\", 3), (\"THE WRETCHED\", 4), (\"THE LODGE\", 5), (\"TO ALL THE BOYS: P.S. I STILL LOVE YOU\", 6), (\"THE OTHER LAMB\", 7), (\"THE GENTLEMEN\", 8), (\"12 HOUR SHIFT\", 9), (\"THE RENTAL\", 10), (\"SUMMERLAND\", 11);");
 
 
 
@@ -82,13 +83,16 @@ bool db_manager::createTable()
 //        qDebug() << "Injection query4 error." << query4.lastError();
 //    }
 //    if(!query5.exec()){
-//        qDebug() << "Injection query5 error." << query4.lastError();
+//        qDebug() << "Injection query5 error." << query5.lastError();
 //    }
 //    if(!query6.exec()){
-//        qDebug() << "Injection query6 error." << query4.lastError();
+//        qDebug() << "Injection query6 error." << query6.lastError();
 //    }
 //    if(!query7.exec()){
-//        qDebug() << "Injection query7 error." << query4.lastError();
+//        qDebug() << "Injection query7 error." << query7.lastError();
+//    }
+//    if(!query8.exec()){
+//        qDebug() << "Injection query8 error." << query8.lastError();
 //    }
 
 
@@ -202,10 +206,40 @@ bool db_manager::removeMovie(const QString &name)
     return success;
 }
 
+QList<RoomDTO> db_manager::getRooms(const QString &name)
+{
+    QList<RoomDTO> rooms;
+    QSqlQuery query;
+    query.prepare("SELECT * FROM ROOMS where roomId not in (SELECT roomId FROM MOVIES where name = (:name) and MOVIES.roomId not NULL);");
+    query.bindValue(":name", name);
+    query.exec();
+
+    int roomId= query.record().indexOf("roomId");
+    int nameId= query.record().indexOf("name");
+    int placesId = query.record().indexOf("places");
+
+    while (query.next())
+    {
+        RoomDTO room;
+        room.setId(query.value(roomId).toInt());
+        room.setName(query.value(nameId).toString());
+
+        QString placesStr = query.value(placesId).toString();
+//        int places[placesStr.length()/2];
+//        int *a{makeList(placesStr, places)};
+        room.setCount(placesStr.length()/2);
+
+        rooms.append(room);
+    }
+    return rooms;
+}
+
+
 QList<RoomDTO> db_manager::getRooms()
 {
     QList<RoomDTO> rooms;
-    QSqlQuery query("SELECT * from ROOMS");
+    QSqlQuery query("SELECT * FROM ROOMS");
+
     int nameId= query.record().indexOf("name");
     int placesId = query.record().indexOf("places");
 
@@ -500,6 +534,102 @@ bool db_manager::checkIfRoomEmpty(const QDateTime date, const int &roomId)
         qDebug() << "checkIfRoomEmpty failed: name cannot be empty";
     }
 
+    return success;
+}
+
+QList<QChar> db_manager::getPlaces(const int &movieId)
+{
+    QList<QChar> places;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
+
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+
+            while (query.next()){
+                QString plc = query.value(placesDB).toString();
+                for(size_t i = 0; i < plc.length(); i+=2){
+                    if(plc.at(i) == '0' || plc.at(i) == '1'){
+                        places.append(plc.at(i));
+                    }
+                }
+            }
+        }
+    }
+    return places;
+}
+
+bool db_manager::unreserve(const int &movieId, const int &placeNum)
+{
+    bool success = false;
+    QString string;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
+
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+            while (query.next()){
+                string = query.value(placesDB).toString();
+            }
+        }
+
+        if((string.length()/2) > placeNum){
+            string[placeNum*2] = '0';
+
+            QSqlQuery queryUpdate;
+            queryUpdate.prepare("UPDATE ROOMS SET places= (:places) WHERE roomId IS (SELECT roomId from MOVIES where movieId = (:movieId));");
+            queryUpdate.bindValue(":places", string);
+            queryUpdate.bindValue(":movieId", movieId);
+            if(queryUpdate.exec()){
+                        success = true;
+            }
+            else {
+                qDebug() << "update movie failed: " << queryUpdate.lastError();
+            }
+        }else{
+            success = true;
+        }
+    }
+    return success;
+}
+
+bool db_manager::reserve(const int &movieId, const int &placeNum)
+{
+    bool success = false;
+    QString string;
+    if(movieId != 0){
+        QSqlQuery query;
+        query.prepare("SELECT M.movieId, R.roomId, R.places from MOVIES M INNER JOIN ROOMS R on R.roomId = M.roomId where M.movieId = (:movieId);");
+        query.bindValue(":movieId", movieId);
+
+        if (query.exec()){
+            int placesDB = query.record().indexOf("places");
+            while (query.next()){
+                string = query.value(placesDB).toString();
+            }
+        }
+
+        if((string.length()/2) > placeNum){
+            string[placeNum*2] = '1';
+
+            QSqlQuery queryUpdate;
+            queryUpdate.prepare("UPDATE ROOMS SET places= (:places) WHERE roomId IS (SELECT roomId from MOVIES where movieId = (:movieId));");
+            queryUpdate.bindValue(":places", string);
+            queryUpdate.bindValue(":movieId", movieId);
+            if(queryUpdate.exec()){
+                        success = true;
+            }
+            else {
+                qDebug() << "update movie failed: " << queryUpdate.lastError();
+            }
+        }else{
+            success = true;
+        }
+    }
     return success;
 }
 

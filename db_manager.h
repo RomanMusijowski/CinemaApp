@@ -23,6 +23,7 @@ public:
     bool removeMovie(const QString &name);
 
 
+    QList<RoomDTO> getRooms(const QString &name);
     QList<RoomDTO> getRooms();
     bool addRoom(const QString &name, const int &places);
     bool editRoom(const QString &oldName, const QString &newName, const int &newCount);
@@ -40,6 +41,13 @@ public:
     bool removeMovieRoom(const int &movieId);
 
     bool checkIfRoomEmpty(const QDateTime date, const int &roomId);
+
+    QList<QChar> getPlaces(const int &movieId);
+
+
+    bool unreserve(const int &movieId, const int &placeNum);
+    bool reserve(const int &movieId, const int &placeNum);
+
 
 private:
     QSqlDatabase m_db;

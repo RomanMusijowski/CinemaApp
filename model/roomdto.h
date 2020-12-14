@@ -8,6 +8,7 @@
 class RoomDTO
 {
 private:
+    int id;
     QString name;
     int count;
 public:
@@ -16,6 +17,8 @@ public:
     void setName(const QString &value);
     int getCount() const;
     void setCount(int value);
+    int getId() const;
+    void setId(int value);
 };
 
 #endif // ROOMDTO_H

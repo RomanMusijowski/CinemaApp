@@ -20,7 +20,17 @@ void RoomDTO::setCount(int value)
     count = value;
 }
 
+int RoomDTO::getId() const
+{
+    return id;
+}
+
+void RoomDTO::setId(int value)
+{
+    id = value;
+}
+
 RoomDTO::RoomDTO()
 {
-
+    
 }

@@ -20,22 +20,24 @@ AddMovieRoom::AddMovieRoom(QString x, QWidget *parent) :
     ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->add->setEnabled(false);
 
-    ui->tableWidget->setColumnCount(2);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableWidget->setColumnCount(3);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     QStringList titles;
-    titles << "Name" << "Places";
+    titles << "Id" << "Name" << "Places";
+    ui->tableWidget->setSortingEnabled( false );
     ui->tableWidget->setHorizontalHeaderLabels(titles);
 
-    QList<RoomDTO> rooms = db.getRooms();
+    QList<RoomDTO> rooms = db.getRooms(name);
 
     ui->tableWidget->setSortingEnabled( false );
 
     for (int i = 0; i < rooms.count(); i++) {
         RoomDTO dto = rooms.at(i);
         ui->tableWidget->insertRow(i);
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(dto.getName()));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(dto.getCount())));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(dto.getId())));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(dto.getName()));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(dto.getCount())));
     }
     ui->tableWidget->setSortingEnabled( true );
 }
@@ -50,7 +52,7 @@ void AddMovieRoom::on_add_clicked(){
 
 
 
-    if(db.addMovieRoom(name, selectedRow+1, myDate)){
+    if(db.addMovieRoom(name, selectedRow, myDate)){
         MovieTimetable *welcom=new MovieTimetable(name);
         welcom->show();
         AddMovieRoom::close();
@@ -67,6 +69,6 @@ void AddMovieRoom::on_cancel_clicked(){
 void AddMovieRoom::on_tableWidget_pressed(const QModelIndex &index)
 {
     ui->add->setEnabled(true);
-    roomName = ui->tableWidget->selectedItems().at(0)->text();
-    selectedRow = index.row();
+    roomName = ui->tableWidget->selectedItems().at(1)->text();
+    selectedRow = ui->tableWidget->selectedItems().at(0)->text().toInt();
 }
